@@ -12,16 +12,17 @@ print(df)
 #Q2 Encontre a média, o desvio padrão e a moda das vendas do total de álbuns.
 
 #Média
-
+#usando a função existente no R "mean", calculamos a média da 5ª coluna (qtd de albuns vendidos)
 media = mean(df[[5]])
 print(media)
 
 #Desvio Padrão
-
+#usando a função existente no R "sd", calculamos o desvio padrão da 5ª coluna (qtd de albuns vendidos)
 devP = sd(df[[5]])
 print(devP)
 
 #Moda
+#calculamos as ocorrência de cada valor e retornamos a maior quantidade (moda)
 getmode <- function(v) {
    uniqv <- unique(v)
    uniqv[which.max(tabulate(match(v, uniqv)))]
