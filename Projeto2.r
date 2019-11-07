@@ -4,7 +4,7 @@
 
 #Q1 Descarregue o arquivo .csv da planilha e imprima o dataframe obtido exatamente do jeito que ele se encontra.
 
-df <- read.csv(file="detalhes-albuns.csv", header=TRUE, sep=",", encoding = "UTF-8")
+df <- read.csv(file="/Users/art/Documents/ET586-Projeto2/ET586-Projeto2/detalhes-albuns.csv", header=TRUE, sep=",", encoding = "UTF-8")
 
 print(df)
 
@@ -35,12 +35,47 @@ print(moda)
 
 #Q3 Faça uma função que retorna os nomes dos artistas que lançaram álbuns nos dois anos (ou seja, o mesmo artista lançou um ou mais álbuns em 2018 e em 2019).
 
+albunsxartistas <- function() {
+
+  v2018 = df[df$Ano == 2018,][["Artista"]]
+  v2019 = df[df$Ano == 2019,][["Artista"]]
+
+  artistas = vector()
+
+  for (i in v2018){
+    if (i %in% v2019) {
+       artistas = c(artistas, i)
+    }
+  }
+  return (unique(artistas))
+}
+
+print("Artistas que lançaram albums em 2018 e 2019:")
+print(albunsxartistas())
 
 #Q4Faça uma função que retorne qual artista possui o menor desvio padrão nas vendas.
 
 
 #Q5 Faça uma função que retorne o nome do álbum que mais vendeu e o que menos vendeu ao dar um ano de lançamento (retorne também o nome dos artistas correspondentes a cada álbum).
 
+albunsxano <- function(ano) {
+
+  vendasMax = max(df[df$Ano == ano,][[5]])
+  vendasMin = min(df[df$Ano == ano,][[5]])
+
+  albumMax = df[df[5] == vendasMax,]["Album"]
+  albumMin = df[df[5] == vendasMin,]["Album"]
+
+  bandaMax = df[df[[5]] == vendasMax,]["Artista"]
+  bandaMin = df[df[5] == vendasMin,]["Artista"]
+
+  max = merge(albumMax, bandaMax)
+  min = merge(albumMin, bandaMin)
+  
+  return(rbind(max, min))
+}
+
+print(albunsxano(2018))
 
 #Q6 Faça uma função que retorne uma lista com os artistas que só apareceram uma vez na planilha, indicando também o ano que cada um aparece.
 
