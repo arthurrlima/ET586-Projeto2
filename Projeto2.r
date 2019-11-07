@@ -4,7 +4,7 @@
 
 #Q1 Descarregue o arquivo .csv da planilha e imprima o dataframe obtido exatamente do jeito que ele se encontra.
 
-df = read.csv('/Users/art/Documents/ET586-Projeto2/ET586-Projeto2/Detalhes de Álbuns.csv')
+df <- read.csv(file="detalhes-albuns.csv", header=TRUE, sep=",", encoding = "UTF-8")
 
 print(df)
 
