@@ -4,7 +4,7 @@
 
 #Q1 Descarregue o arquivo .csv da planilha e imprima o dataframe obtido exatamente do jeito que ele se encontra.
 
-df <- read.csv(file="/Users/art/Documents/ET586-Projeto2/ET586-Projeto2/detalhes-albuns.csv", header=TRUE, sep=",", encoding = "UTF-8")
+df <- read.csv(file="detalhes-albuns.csv", header=TRUE, sep=",", encoding = "UTF-8")
 
 print(df)
 
@@ -55,6 +55,12 @@ print(albunsxartistas())
 
 #Q4Faça uma função que retorne qual artista possui o menor desvio padrão nas vendas.
 
+artistaMenorDesvio <- function(ano) {
+  
+  return()
+}
+
+print(artistaMenorDesvio())
 
 #Q5 Faça uma função que retorne o nome do álbum que mais vendeu e o que menos vendeu ao dar um ano de lançamento (retorne também o nome dos artistas correspondentes a cada álbum).
 
@@ -90,4 +96,13 @@ print(albunsxano(2018))
 
 
 #Q10 Faça uma função que ao receber o nome de uma empresa, cria um histograma onde mostra a frequência de álbuns lançados pela empresa de acordo com o ano. Não esqueça de dar um título e fazer ele de forma colorida, facilitando a visualização.
-
+frequenciaAlbuns <- function(empresa) {
+  print(df[df$Empresa == empresa,])
+  barplot(table(df[df$Empresa == empresa,]$Ano),
+          main=paste("frequência de álbuns lançados pela empresa ", empresa),
+          xlab="Ano",
+          ylab = "Frequência",
+          col= colors()[grep("sky",colors())]
+  )
+}
+frequenciaAlbuns('JYP')
