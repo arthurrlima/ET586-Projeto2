@@ -3,22 +3,21 @@
 #Vitor Miranda - vmm
 
 #Q1 Descarregue o arquivo .csv da planilha e imprima o dataframe obtido exatamente do jeito que ele se encontra.
-
-df <- read.csv(file="detalhes-albuns.csv", header=TRUE, sep=",", encoding = "UTF-8")
-
+df <- read.csv(file="ET586-Projeto2/detalhes-albuns.csv", header=TRUE, sep=",", encoding = "UTF-8")
+print("Q1:")
 print(df)
 
-
 #Q2 Encontre a média, o desvio padrão e a moda das vendas do total de álbuns.
-
 #Média
 #usando a função existente no R "mean", calculamos a média da 5ª coluna (qtd de albuns vendidos)
 media = mean(df[[5]])
+print("Q2: Media:")
 print(media)
 
 #Desvio Padrão
 #usando a função existente no R "sd", calculamos o desvio padrão da 5ª coluna (qtd de albuns vendidos)
 devP = sd(df[[5]])
+print("Q2: Desvio Padrão:")
 print(devP)
 
 #Moda
@@ -29,12 +28,10 @@ getmode <- function(v) {
 }
 
 moda = getmode(df[[5]])
+print("Q2: moda:")
 print(moda)
 
-
-
 #Q3 Faça uma função que retorna os nomes dos artistas que lançaram álbuns nos dois anos (ou seja, o mesmo artista lançou um ou mais álbuns em 2018 e em 2019).
-
 albunsxartistas <- function() {
 
   v2018 = df[df$Ano == 2018,][["Artista"]]
@@ -49,21 +46,19 @@ albunsxartistas <- function() {
   }
   return (unique(artistas))
 }
-
+print("Q3:")
 print("Artistas que lançaram albums em 2018 e 2019:")
 print(albunsxartistas())
 
 #Q4Faça uma função que retorne qual artista possui o menor desvio padrão nas vendas.
-
 artistaMenorDesvio <- function(ano) {
   
   return()
 }
-
+print("Q4")
 print(artistaMenorDesvio())
 
 #Q5 Faça uma função que retorne o nome do álbum que mais vendeu e o que menos vendeu ao dar um ano de lançamento (retorne também o nome dos artistas correspondentes a cada álbum).
-
 albunsxano <- function(ano) {
 
   vendasMax = max(df[df$Ano == ano,][[5]])
@@ -80,11 +75,28 @@ albunsxano <- function(ano) {
   
   return(rbind(max, min))
 }
-
+print("Q5:")
 print(albunsxano(2018))
 
 #Q6 Faça uma função que retorne uma lista com os artistas que só apareceram uma vez na planilha, indicando também o ano que cada um aparece.
+artistas1v = function(){
+  #Usamos table pra contar as ocorrencias e depois removi as maiores que 1
+  freq = as.data.frame(table(df["Artista"]))
+  freq = freq[!(freq$Freq > 1),]
+  
+  colnames(freq)[1] = "Artista"
 
+  Ano = vector()
+  
+  #adicionando o Ano que o Artista apareceu
+  for(i in freq[[1]]){ 
+    Ano = c(Ano, df[df$Artista == i,][["Ano"]])
+  }
+  return(data.frame(freq[1], Ano))
+}
+
+print("Q6:")
+print(artistas1v())
 
 #Q7 Faça um dataframe com as colunas EMPRESA, NÚMERO DE ARTISTAS que mostra quantos artistas cada empresa possui (lembrando que um mesmo artista pode aparecer mais de uma vez na planilha). Coloque em ordem crescente do número de artistas.
 
