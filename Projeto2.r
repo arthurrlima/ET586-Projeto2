@@ -131,7 +131,10 @@ empresasDF = data.frame(empresas, qtdArtistas)
 #nomeia colunas para ordenar pela quantidade de artistas crescente
 colnames(empresasDF)[1] = "Empresa"
 colnames(empresasDF)[2] = "QuantidadeArtistas"
-print(empresasDF[order(empresasDF$QuantidadeArtistas),])
+
+empresasDF = empresasDF[order(empresasDF$QuantidadeArtistas),]
+print(empresasDF)
+
 
 #Q8 Elabore uma função que retorna os 3 artistas que mais aparecem na planilha, para em seguida fazer um dataframe desses artistas com as colunas ARTISTA, TOTAL DE VENDAS onde a última coluna deve ser a soma de todas as vendas do artista. Faça por ordem decrescente de vendas.
 
@@ -160,7 +163,10 @@ print("Q8:")
 print(dfV)
 
 
-#Q9 Elabore uma função que retorna o nome do álbum que mais vendeu de cada empresa. Por fim, faça um dataframe com as colunas EMPRESA, ARTISTA, ÁLBUM, VENDAS que mostra o álbum mais vendido de cada empresa, por ordem decrescente de vendas.
+#Q9 Elabore uma função que retorna o nome do álbum que mais vendeu de cada empresa. 
+#Por fim, faça um dataframe com as colunas EMPRESA, ARTISTA, ÁLBUM, VENDAS que mostra o álbum mais vendido de cada empresa, 
+#por ordem decrescente de vendas.
+
 
 albumxempresa = function(){
   empresas = unique(as.vector(df[[4]]))
@@ -187,10 +193,14 @@ print(albumxempresa())
 frequenciaAlbuns <- function(empresa) {
   print(df[df$Empresa == empresa,])
   barplot(table(df[df$Empresa == empresa,]$Ano),
+          #titulo do histograma
           main=paste("frequência de álbuns lançados pela empresa ", empresa),
+          # label eixo x
           xlab="Ano",
+          # label eixo y
           ylab = "Frequência",
-          col= colors()[grep("blue",colors())]
+          # vetor de cores
+          col= colors()[grep("red",colors())]
   )
 }
 frequenciaAlbuns('JYP')
