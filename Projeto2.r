@@ -3,7 +3,7 @@
 #Vitor Miranda - vmm
 
 #Q1 Descarregue o arquivo .csv da planilha e imprima o dataframe obtido exatamente do jeito que ele se encontra.
-df <- read.csv(file="ET586-Projeto2/detalhes-albuns.csv", header=TRUE, sep=",", encoding = "UTF-8")
+df <- read.csv(file="detalhes-albuns.csv", header=TRUE, sep=",", encoding = "UTF-8")
 print("Q1:")
 print(df)
 
@@ -77,19 +77,19 @@ print(artistaMenorDesvio())
 
 #Q5 Faça uma função que retorne o nome do álbum que mais vendeu e o que menos vendeu ao dar um ano de lançamento (retorne também o nome dos artistas correspondentes a cada álbum).
 albunsxano <- function(ano) {
-
+  #pega a qtd de vendas do album mais vendido e menos vendido
   vendasMax = max(df[df$Ano == ano,][[5]])
   vendasMin = min(df[df$Ano == ano,][[5]])
-
+  #pega o nome do album mais vendido e menos vendido
   albumMax = df[df[5] == vendasMax,]["Album"]
   albumMin = df[df[5] == vendasMin,]["Album"]
-
+  #pega o artista do album mais vendido e menos vendido
   bandaMax = df[df[[5]] == vendasMax,]["Artista"]
   bandaMin = df[df[5] == vendasMin,]["Artista"]
-
+  #junta todos os vetores e armazena na variavel max e min
   max = merge(albumMax, bandaMax)
   min = merge(albumMin, bandaMin)
-  
+  #retorna o dataframe contendo 2 linhas (max e min) album e artista
   return(rbind(max, min))
 }
 print("Q5:")
@@ -97,7 +97,7 @@ print(albunsxano(2018))
 
 #Q6 Faça uma função que retorne uma lista com os artistas que só apareceram uma vez na planilha, indicando também o ano que cada um aparece.
 artistas1v = function(){
-  #Usamos table pra contar as ocorrencias e depois removi as maiores que 1
+  #Usamos table pra contar as ocorrencias e depois remove as maiores que 1
   freq = as.data.frame(table(df["Artista"]))
   freq = freq[!(freq$Freq > 1),]
   
@@ -133,6 +133,7 @@ colnames(empresasDF)[1] = "Empresa"
 colnames(empresasDF)[2] = "QuantidadeArtistas"
 
 empresasDF = empresasDF[order(empresasDF$QuantidadeArtistas),]
+print("Q7:")
 print(empresasDF)
 
 
@@ -166,51 +167,53 @@ print(dfV)
 #Q9 Elabore uma função que retorna o nome do álbum que mais vendeu de cada empresa. 
 #Por fim, faça um dataframe com as colunas EMPRESA, ARTISTA, ÁLBUM, VENDAS que mostra o álbum mais vendido de cada empresa, 
 #por ordem decrescente de vendas.
-
+print("Q9:")
 albumxempresa = function(){
   empresas = unique(as.vector(df[[4]]))
   albuns = vector()
-#armazena no vetor as quantidades de artistas de cada empresa
+  #armazena no vetor as quantidades de artistas de cada empresa
   for(empresa in empresas){
     maisvendido = max(df[df$Empresa == empresa,][[5]]) 
 
     albuns = c(albuns, as.vector(df[df$Qnt..de.Albuns.Vendidos == maisvendido, 2]))
   }
-    
+  #cria dataframe com os vetores de empresas e albuns (empresa e mais vendido)
   empresas_albuns = data.frame(empresas, albuns)
-
+  #renomeia colunas
   colnames(empresas_albuns)[1] = "Empresa"
   colnames(empresas_albuns)[2] = "Album mais vendido"
 
-  
+  #retorna dataframe
   return(empresas_albuns)
 }
 print("Retorno da Função: ")
 print(albumxempresa())
 
 empresas = unique(as.vector(df[[4]]))
-df10 = data.frame()
+#inicializa dataframe
+df9 = data.frame()
 for(empresa in empresas){
-
+  #para cada empresa, pega as informações do album mais vendido
   maisvendido = max(df[df$Empresa == empresa,][[5]])
-
-  df10 = rbind(df10, df[df$Qnt..de.Albuns.Vendidos == maisvendido,])
+  
+  #adiciona a linha(rbind) do album mais vendido ao data frame
+  df9 = rbind(df9, df[df$Qnt..de.Albuns.Vendidos == maisvendido,])
 
 }
+#remove a coluna ano, reordena as colunas do dataframe e renomeia as colunas para o padrão da questão
+df9$Ano = NULL
+df9 = df9[c(3, 1, 2, 4)]
 
-df10$Ano = NULL
+colnames(df9)[1] = "EMPRESA"
+colnames(df9)[2] = "ARTISTA"
+colnames(df9)[3] = "ÁLBUM"
+colnames(df9)[4] = "VENDAS"
 
-df10 = df10[c(3, 1, 2, 4)]
-
-colnames(df10)[1] = "EMPRESA"
-colnames(df10)[2] = "ARTISTA"
-colnames(df10)[3] = "ÁLBUM"
-colnames(df10)[4] = "VENDAS"
-
-df10 = df10[order(-df10$VENDAS),]
+#reordena o dataframe pela coluna VENDAS decrescente
+df9 = df9[order(-df9$VENDAS),]
 
 print("por fim, data frame:")
-print(df10)
+print(df9)
 
 #Q10 Faça uma função que ao receber o nome de uma empresa, cria um histograma onde mostra a frequência de álbuns lançados pela empresa de acordo com o ano. Não esqueça de dar um título e fazer ele de forma colorida, facilitando a visualização.
 frequenciaAlbuns <- function(empresa) {
