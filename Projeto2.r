@@ -103,6 +103,27 @@ print(artistas1v())
 
 #Q8 Elabore uma função que retorna os 3 artistas que mais aparecem na planilha, para em seguida fazer um dataframe desses artistas com as colunas ARTISTA, TOTAL DE VENDAS onde a última coluna deve ser a soma de todas as vendas do artista. Faça por ordem decrescente de vendas.
 
+maxArtistas = function(){
+  freq = as.data.frame(table(df["Artista"]))
+  freq = freq[!(freq$Freq < 3),]
+
+  return(freq[1:3,])
+  
+}
+
+TotalVendas = c(sum(df[df$Artista == 'DAY6',][[5]]), sum(df[df$Artista == 'RED VELVET',][[5]]), sum(df[df$Artista == 'THE BOYZ',][[5]]))
+
+vectArtistas = maxArtistas()[1]
+
+dfV = data.frame(vectArtistas, TotalVendas)
+dfV = dfV[order(-dfV$TotalVendas),]
+
+colnames(dfV)[1] = "Artista"
+colnames(dfV)[2] = "Total de Vendas"
+
+print("Q8:")
+print(dfV)
+
 
 #Q9 Elabore uma função que retorna o nome do álbum que mais vendeu de cada empresa. Por fim, faça um dataframe com as colunas EMPRESA, ARTISTA, ÁLBUM, VENDAS que mostra o álbum mais vendido de cada empresa, por ordem decrescente de vendas.
 
