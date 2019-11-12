@@ -61,7 +61,6 @@ artistaMenorDesvio <- function() {
   # armazena no vetor
   for (artist in as.vector(freq[[1]])) {
     vDP = c(vDP, sd(df[df$Artista == artist,][[5]]))
-    
   }
   #cria um novo dataframe com o artista e seu DP
   dfDP = data.frame(freq[1], vDP)
@@ -116,8 +115,23 @@ artistas1v = function(){
 print("Q6:")
 print(artistas1v())
 
-#Q7 Faça um dataframe com as colunas EMPRESA, NÚMERO DE ARTISTAS que mostra quantos artistas cada empresa possui (lembrando que um mesmo artista pode aparecer mais de uma vez na planilha). Coloque em ordem crescente do número de artistas.
+#Q7 Faça um dataframe com as colunas EMPRESA, NÚMERO DE ARTISTAS que mostra quantos artistas cada empresa possui (lembrando que um mesmo artista pode aparecer mais de uma vez na planilha).
+#Coloque em ordem crescente do número de artistas.
 
+#cria um vetor para armazenar as empresas e outro para a quatidade de artistas
+empresas = unique(as.vector(df[[4]]))
+qtdArtistas = vector()
+# armazena no vetor as quantidades de artistas de cada empresa
+for (empresa in empresas) {
+  qtdArtistas = c(qtdArtistas, nrow(unique(df[df$Empresa == empresa,]["Artista"])))
+}
+
+#cria um novo dataframe com a empresa e a quantidade de artistas
+empresasDF = data.frame(empresas, qtdArtistas)
+#nomeia colunas para ordenar pela quantidade de artistas crescente
+colnames(empresasDF)[1] = "Empresa"
+colnames(empresasDF)[2] = "QuantidadeArtistas"
+print(empresasDF[order(empresasDF$qtdArtistas),])
 
 #Q8 Elabore uma função que retorna os 3 artistas que mais aparecem na planilha, para em seguida fazer um dataframe desses artistas com as colunas ARTISTA, TOTAL DE VENDAS onde a última coluna deve ser a soma de todas as vendas do artista. Faça por ordem decrescente de vendas.
 
@@ -156,7 +170,7 @@ frequenciaAlbuns <- function(empresa) {
           main=paste("frequência de álbuns lançados pela empresa ", empresa),
           xlab="Ano",
           ylab = "Frequência",
-          col= colors()[grep("sky",colors())]
+          col= colors()[grep("blue",colors())]
   )
 }
 frequenciaAlbuns('JYP')
