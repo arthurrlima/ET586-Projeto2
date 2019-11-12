@@ -167,7 +167,6 @@ print(dfV)
 #Por fim, faça um dataframe com as colunas EMPRESA, ARTISTA, ÁLBUM, VENDAS que mostra o álbum mais vendido de cada empresa, 
 #por ordem decrescente de vendas.
 
-
 albumxempresa = function(){
   empresas = unique(as.vector(df[[4]]))
   albuns = vector()
@@ -186,6 +185,8 @@ albumxempresa = function(){
   
   return(empresas_albuns)
 }
+print("Retorno da Função: ")
+print(albumxempresa())
 
 empresas = unique(as.vector(df[[4]]))
 df10 = data.frame()
@@ -197,9 +198,19 @@ for(empresa in empresas){
 
 }
 
-print(df10)
+df10$Ano = NULL
 
-print(albumxempresa())
+df10 = df10[c(3, 1, 2, 4)]
+
+colnames(df10)[1] = "EMPRESA"
+colnames(df10)[2] = "ARTISTA"
+colnames(df10)[3] = "ÁLBUM"
+colnames(df10)[4] = "VENDAS"
+
+df10 = df10[order(-df10$VENDAS),]
+
+print("por fim, data frame:")
+print(df10)
 
 #Q10 Faça uma função que ao receber o nome de uma empresa, cria um histograma onde mostra a frequência de álbuns lançados pela empresa de acordo com o ano. Não esqueça de dar um título e fazer ele de forma colorida, facilitando a visualização.
 frequenciaAlbuns <- function(empresa) {
