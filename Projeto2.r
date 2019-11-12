@@ -175,7 +175,7 @@ albumxempresa = function(){
   for(empresa in empresas){
     maisvendido = max(df[df$Empresa == empresa,][[5]]) 
 
-    albuns = c(albuns, as.vector(df[df$Qnt..de.Albuns.Vendidos == maisvendido, 2])
+    albuns = c(albuns, as.vector(df[df$Qnt..de.Albuns.Vendidos == maisvendido, 2]))
   }
     
   empresas_albuns = data.frame(empresas, albuns)
@@ -183,9 +183,21 @@ albumxempresa = function(){
   colnames(empresas_albuns)[1] = "Empresa"
   colnames(empresas_albuns)[2] = "Album mais vendido"
 
-  print(empresas_albuns)
+  
   return(empresas_albuns)
 }
+
+empresas = unique(as.vector(df[[4]]))
+df10 = data.frame()
+for(empresa in empresas){
+
+  maisvendido = max(df[df$Empresa == empresa,][[5]])
+
+  df10 = rbind(df10, df[df$Qnt..de.Albuns.Vendidos == maisvendido,])
+
+}
+
+print(df10)
 
 print(albumxempresa())
 
